@@ -45,7 +45,6 @@ int main (void)
 	/*This loop handles every line of the file*/
 	while(fgets(line,100,txtFile) != NULL&& strcmp(line, " ") != 0)
 	{
-		printf("Debug 3\n");
 		printListInfo(theList);
 		temp = strtok(line, " ");
 		operation = temp;
@@ -76,7 +75,6 @@ int main (void)
 	/*close the text file*/
 	fclose(txtFile);
 	/*Perform all frees here*/
-	FreeStudent(newStudentPtr);
 	Destroy(theList);
 	free(txtFileName);
     return EXIT_SUCCESS;
