@@ -32,7 +32,7 @@ void Insert (Item X, int position, List *L)
 	}
 	#endif
 	initSize = L->size;
-	
+
 	/*loop through the list backwards bumping every item down a positon*/
 	/*add to list size*/
 	for(i = MAXLISTSIZE; i!=position;i--)
@@ -54,7 +54,7 @@ void Insert (Item X, int position, List *L)
 
 	/*postconditions*/
 	#ifdef DEBUG
-	if(Empty(L)==1||Size(L)>initSize)
+	if(Empty(L)==1||Size(L)<initSize)
 	{
 		printf("Insert Postconditions :Empty(%d), Size(%d)\n",Empty(L),Size(L));
 		exit(1);
@@ -89,7 +89,7 @@ void Remove (int position, List *L)
 
 	/*postconditions*/
 	#ifdef DEBUG
-	if(Full(L)==1||Size(L)<initSize)
+	if(Full(L)==1||Size(L)>initSize)
 	{
 		printf("Remove Postconditions :Full(%d), Size(%d)\n",Full(L),Size(L));
 		exit(1);
