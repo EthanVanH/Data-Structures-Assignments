@@ -9,6 +9,12 @@ void InitializeStudent (char *name, int grade, Student *S)
 	/*Assign Data*/
 	strcpy(S->name,name);
 	S->grade = grade;
+	#ifdef DEBUG
+	if(strcmp(NameOfStudent(*S),"") ==0 ||GradeOfStudent(*S) ==0 )
+	{
+		printf("Postconditions: NameOfStudent(%s)---GradeOfStudent(%d)",NameOfStudent(*S),GradeOfStudent(*S));
+	}
+	#endif
 }
 /*Returns the character name of the student*/
 char *NameOfStudent(Student S) 

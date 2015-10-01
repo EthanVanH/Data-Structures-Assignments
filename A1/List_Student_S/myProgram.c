@@ -15,26 +15,29 @@ int main (int argc, char const *argv[])
 {
 	char *txtFileName, *line, *temp;
 	char *operation, *position,*name,*value;
-	FILE * txtFile;
+	FILE *txtFile;
 	List *theList;
 	Student newStudent;
 	Student *newStudentPtr;
+	
 	txtFileName = malloc(sizeof(argv[1]+1));
 	strcpy(txtFileName,argv[1]);
-
+	printf("DEBUG 0");
 	txtFile = fopen(txtFileName, "r");
-	line = (char*)malloc(30);
-	temp = (char*)malloc(15);
+	line = (char*)malloc(256);
+	temp = (char*)malloc(100);
 
 	/*initialize list*/
 	theList = malloc(sizeof(List)*1);
 	Initialize(theList);
-
+	printf("Debug 1\n");
+	
 	newStudentPtr = malloc(sizeof(Student)*1);
-
+	printf("Debug 2\n");
 	/*This loop handles every line of the file*/
 	while(fgets(line,255,txtFile) != NULL && strcmp(line, " ") != 0)
 	{
+		printf("Debug 3\n");
 		printListInfo(theList);
 		temp = strtok(line, " ");
 		operation = temp;
@@ -62,7 +65,11 @@ int main (int argc, char const *argv[])
 	
 	}
 	printListInfo(theList);
+	fclose(txtFile);
 	/*Perform all frees here*/
+	FreeStudent(newStudentPtr);
+	Destroy(theList);
+	free(txtFileName);
     return EXIT_SUCCESS;
 }
 
