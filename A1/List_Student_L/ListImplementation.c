@@ -6,6 +6,19 @@
 
 void Initialize (List *L) 
 {
+	int i;
+	ListNode *aNode, *aNode2;
+
+	aNode = malloc(sizeof(ListNode)*1);
+	L->head = aNode;
+
+	for(i=1;i<MAXLISTSIZE;i++)
+	{
+		aNode2 = malloc(sizeof(ListNode)*1);
+		aNode->next =aNode2;
+		aNode = aNode->next;
+
+	}
 	L->size = 0;
 }
 
@@ -16,22 +29,38 @@ void Insert (Item X, int position, List *L)
 
 	newListNode = malloc(sizeof(ListNode)*1);
 	newListNode->item = X;
+	/*Preconditions*/
+	#ifdef DEBUG
 	if(position>L->size||position<0||L->size==MAXLISTSIZE)
 	{
 		printf("Could not insert condition of list not met");
 		exit(1);
 	}
+	#endif
+	newListNode = malloc(sizeof(ListNode)*1);
+	temp = malloc(sizeof(ListNode)*1);
+	newListNode->item = X;
 
-	current = L->head;
-	/*Loop through the List*/
-	for(i=0;i<position;i++)
+	if(position ==0)
 	{
-		current = current->next;
+		newListNode->next = L->head;
+		L->head = newListNode;	
 	}
-	temp = current->next;
-	current->next->item = X;
-	newListNode->next = temp;
+	else
+	{
+		current = L->head;
+
+		for(i=1;i<position;i++)
+		{
+			temp = current;
+			current = current->next;
+		}
+
+		newListNode->next = current->next;
+		temp->next = newListNode;
+	}
 	L->size++;
+
 
 }
 
@@ -39,7 +68,7 @@ void Remove (int position, List *L)
 {
 	int i;
 	ListNode *current;
-	/* loop through list until att position, set the pointer of teh preceding element to the element that the objeect to be removed is pointing to*/
+	/* loop through list until att position, set the pointer of the preceding element to the element that the objeect to be removed is pointing to*/
 	/*then subtract form list size*/
 	current = L->head; 
 	for(i=0;i<position-1;i++)
@@ -89,6 +118,7 @@ void Peek (int position, List *L, Item *X)
 	ListNode *current;
 	int i;
 
+	current = malloc(sizeof(ListNode)*1);
 	current = L->head;
 	for(i=0;i<position;i++)
 	{

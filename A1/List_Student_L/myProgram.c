@@ -11,38 +11,45 @@
 
 void printListInfo(List *L);
 
-int main (int argc, char const *argv[]) 
+int main (void) 
 {
 	char *txtFileName, *line, *temp;
 	char *operation, *position,*name,*value;
-	FILE * txtFile;
+	FILE *txtFile;
 	List *theList;
 	Student newStudent;
 	Student *newStudentPtr;
-	txtFileName = malloc(sizeof(argv[1]+1));
-	strcpy(txtFileName,argv[1]);
 
-	txtFile = fopen(txtFileName, "r");
-	line = (char*)malloc(30);
-	temp = (char*)malloc(15);
+	line = (char*)malloc(255);
+	temp = (char*)malloc(100);
+	
+	/*Get filename from user*/
+	txtFileName = malloc(sizeof(char*)*30);
+	printf("Please enter the name of the text file\n");
+	scanf("%s",txtFileName);
+	txtFileName[strlen(txtFileName)] = '\0';
+
+	/*ensure text file is opened*/
+	if(!(txtFile = fopen(txtFileName, "r")))
+	{
+		perror("Could not open file");
+		exit(EXIT_FAILURE);
+	}
+
 
 	/*initialize list*/
 	theList = malloc(sizeof(List)*1);
 	Initialize(theList);
-
+	
 	newStudentPtr = malloc(sizeof(Student)*1);
-
 	/*This loop handles every line of the file*/
-	while(fgets(line,255,txtFile) != NULL && strcmp(line, " ") != 0)
+	while(fgets(line,100,txtFile) != NULL&& strcmp(line, " ") != 0)
 	{
-		/*printListInfo(theList);*/
-		printf("Debug 0");
+		printListInfo(theList);
 		temp = strtok(line, " ");
-		printf("Debug 1");
 		operation = temp;
 		if(strcmp("Insert",operation)==0)
 		{
-			printf("Debug 2");
 			temp = strtok(NULL, " ");
 			position = temp;
 			temp = strtok(NULL, " ");
@@ -65,16 +72,26 @@ int main (int argc, char const *argv[])
 	
 	}
 	printListInfo(theList);
+	/*close the text file*/
+	fclose(txtFile);
 	/*Perform all frees here*/
+	Destroy(theList);
+	free(txtFileName);
     return EXIT_SUCCESS;
 }
 
 /*
  * This function will print all available information in the list whenever it is called
  * takes a pointer to the list, returns nothing
+ * if the list does not exist bad things will happen
 */
 void printListInfo(List *L)
 {
+	int i;
+	Item *X;
+	Item Y;
+	X = malloc(sizeof(Item)*1);
+	X= &Y;
 	/*checks if list is empty*/
 	if(Empty(L))
 	{
@@ -97,4 +114,9 @@ void printListInfo(List *L)
 
 	/*Checks list size*/
 	printf("List is of size : %d\n",Size(L));
+	for(i = 0; i<MAXLISTSIZE;i++)
+	{
+		Peek(i,L,X);
+		/*printf("%d:%s %d\n",i,NameOfStudent(Y),GradeOfStudent(Y));*/
+	}
 }
